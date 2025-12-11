@@ -14,13 +14,3 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
-
-API KEY d4t3ko9r01qhr5to2psgd4t3ko9r01qhr5to2pt0
-
-flutter run --dart-define=FINNHUB_API_KEY=d4t3ko9r01qhr5to2psgd4t3ko9r01qhr5to2pt0
-
-Android: flutter build apk --release --dart-define=FINNHUB_API_KEY=your_key
-
-iOS: flutter build ios --release --dart-define=FINNHUB_API_KEY=your_key
-
-Web: flutter build web --dart-define=FINNHUB_API_KEY=your_key
