@@ -30,11 +30,13 @@ class _PriceTileState extends State<PriceTile> {
       final repo =
           RepositoryProvider.of<StockRepository>(context, listen: false);
       final q = await repo.getQuote(widget.symbol);
+      if (!mounted) return; // <- Check mounted
       setState(() {
         quote = q;
         loading = false;
       });
     } catch (_) {
+      if (!mounted) return;
       setState(() {
         loading = false;
       });
@@ -50,12 +52,17 @@ class _PriceTileState extends State<PriceTile> {
           ? const SizedBox(
               width: 80,
               child: Center(
-                  child: SizedBox(
-                      height: 12,
-                      width: 12,
-                      child: CircularProgressIndicator(strokeWidth: 2))))
-          : Text(quote != null ? quote!.current.toStringAsFixed(2) : '-',
-              style: const TextStyle(fontFamily: 'RobotoMono')),
+                child: SizedBox(
+                  height: 12,
+                  width: 12,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                ),
+              ),
+            )
+          : Text(
+              quote != null ? quote!.current.toStringAsFixed(2) : '-',
+              style: const TextStyle(fontFamily: 'RobotoMono'),
+            ),
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (_) {
           final repo =

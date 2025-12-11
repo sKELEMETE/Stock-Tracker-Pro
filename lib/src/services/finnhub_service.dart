@@ -41,14 +41,37 @@ class FinnhubService {
     if (res.statusCode != 200) return [];
     final arr = json.decode(res.body) as List<dynamic>;
     return arr.map((e) {
+      final map = e as Map<String, dynamic>;
       return NewsArticle(
-        id: (e['id'] ?? '').toString(),
-        headline: e['headline'] ?? '',
-        source: e['source'] ?? '',
-        url: e['url'] ?? '',
+        id: (map['id'] ?? '').toString(),
+        headline: map['headline'] ?? '',
+        source: map['source'] ?? '',
+        url: map['url'] ?? '',
         datetime:
-            DateTime.fromMillisecondsSinceEpoch((e['datetime'] ?? 0) * 1000),
+            DateTime.fromMillisecondsSinceEpoch((map['datetime'] ?? 0) * 1000),
       );
+    }).toList();
+  }
+
+  // Fetch all US stock symbols
+  Future<List<Map<String, String>>> fetchAllSymbols(
+      {String exchange = 'US'}) async {
+    final url = Uri.https(
+      'finnhub.io',
+      '/api/v1/stock/symbol',
+      {'exchange': exchange, 'token': apiKey},
+    );
+    final res = await httpClient.get(url);
+    if (res.statusCode != 200) return [];
+
+    final data = json.decode(res.body) as List<dynamic>;
+
+    return data.map((e) {
+      final map = e as Map<String, dynamic>; // cast each element
+      return {
+        'symbol': (map['symbol'] ?? '').toString(),
+        'name': (map['description'] ?? '').toString(),
+      };
     }).toList();
   }
 }

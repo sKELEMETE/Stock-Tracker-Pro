@@ -31,4 +31,8 @@ class StockRepository {
   Future<void> removeFromWatchlist(int index) async {
     await box.deleteAt(index);
   }
+
+  Future<List<Map<String, String>>> getAllSymbols() async {
+    return await api.fetchAllSymbols();
+  }
 }
