@@ -8,6 +8,7 @@ import '../widgets/price_tile.dart';
 
 class WatchlistPage extends StatefulWidget {
   const WatchlistPage({super.key});
+
   @override
   State<WatchlistPage> createState() => _WatchlistPageState();
 }
@@ -16,7 +17,6 @@ class _WatchlistPageState extends State<WatchlistPage> {
   @override
   void initState() {
     super.initState();
-    // Load existing watchlist
     final bloc = context.read<WatchlistBloc>();
     bloc.add(LoadWatchlist());
 
@@ -39,8 +39,9 @@ class _WatchlistPageState extends State<WatchlistPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: BlocBuilder<WatchlistBloc, WatchlistState>(
+    return Scaffold(
+      appBar: AppBar(title: const Text('Watchlist')),
+      body: BlocBuilder<WatchlistBloc, WatchlistState>(
         builder: (context, state) {
           if (state is WatchlistLoading) {
             return const Center(child: CircularProgressIndicator());
