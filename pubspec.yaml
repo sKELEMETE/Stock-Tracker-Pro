@@ -1,0 +1,44 @@
+name: stock_tracker_pro
+description: Stock Tracker Pro app
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+  flutter: ">=3.10.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.5
+  flutter_bloc: ^9.1.1
+  bloc: ^9.1.0
+  http: ^1.1.0
+
+  # Freezed pair
+  freezed_annotation: ^2.4.1
+
+  json_annotation: ^4.9.0
+
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+
+  path_provider: ^2.0.15
+  fl_chart: ^1.1.1
+  equatable: ^2.0.5
+
+  url_launcher: ^6.3.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  build_runner: ^2.4.6
+
+  # Freezed generator compatible with Dart 3.3 analyzer
+  freezed: ^2.4.1
+
+  json_serializable: ^6.6.1
+
+  hive_generator: ^2.0.1
