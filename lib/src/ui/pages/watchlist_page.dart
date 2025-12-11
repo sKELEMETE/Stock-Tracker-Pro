@@ -1,3 +1,4 @@
+// lib/src/pages/watchlist_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../blocs/stock_detail/stock_detail_bloc.dart';
@@ -5,6 +6,7 @@ import '../../blocs/stock_detail/stock_detail_event.dart';
 import '../../models/watchlist_item.dart';
 import '../widgets/price_tile.dart';
 import '../../repositories/stock_repository.dart';
+import '../../../constants/colors.dart';
 import '../pages/stock_detail_page.dart';
 
 class WatchlistPage extends StatefulWidget {
@@ -110,19 +112,27 @@ class _WatchlistPageState extends State<WatchlistPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.mainBg,
       appBar: AppBar(title: const Text('Watchlist')),
       body: Column(
         children: [
+          // Search
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               controller: _searchController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: 'Search stocks...',
-                border: OutlineInputBorder(),
+                prefixIcon: const Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                filled: true,
+                fillColor: Colors.white,
               ),
             ),
           ),
+          // Popular horizontal stocks
           SizedBox(
             height: 80,
             child: ListView.builder(
@@ -133,24 +143,32 @@ class _WatchlistPageState extends State<WatchlistPage> {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: ActionChip(
-                    label: Text(stock.symbol),
-                    onPressed: () =>
-                        _goToStockDetail(stock), // navigate directly
+                    backgroundColor: AppColors.electricBlue.withOpacity(0.1),
+                    label: Text(stock.symbol,
+                        style: const TextStyle(
+                            color: AppColors.electricBlue,
+                            fontWeight: FontWeight.bold)),
+                    onPressed: () => _goToStockDetail(stock),
                   ),
                 );
               },
             ),
           ),
+          // Stock list
           Expanded(
             child: _loadingStocks
                 ? const Center(child: CircularProgressIndicator())
-                : ListView.builder(
-                    controller: _scrollController,
-                    itemCount: visibleStocks.length,
-                    itemBuilder: (context, index) {
-                      final stock = visibleStocks[index];
-                      return PriceTile(symbol: stock.symbol, name: stock.name);
-                    },
+                : RefreshIndicator(
+                    onRefresh: _fetchAllStocks,
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      itemCount: visibleStocks.length,
+                      itemBuilder: (context, index) {
+                        final stock = visibleStocks[index];
+                        return PriceTile(
+                            symbol: stock.symbol, name: stock.name);
+                      },
+                    ),
                   ),
           ),
         ],
